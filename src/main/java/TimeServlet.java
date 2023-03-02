@@ -1,3 +1,4 @@
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -5,7 +6,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
+import org.thymeleaf.web.servlet.JakartaServletWebApplication;
+
 import java.io.IOException;
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -21,8 +24,9 @@ public class TimeServlet extends HttpServlet {
 
     @Override
     public void init() {
-
-        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+        ServletContext servletContext = getServletContext();
+        JakartaServletWebApplication application = JakartaServletWebApplication.buildApplication(servletContext);
+        WebApplicationTemplateResolver resolver = new WebApplicationTemplateResolver(application);
         engine = new TemplateEngine();
         resolver.setPrefix("/templates/");
         resolver.setSuffix(".html");
