@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
@@ -24,9 +25,7 @@ public class TimeServlet extends HttpServlet {
 
     @Override
     public void init() {
-        ServletContext servletContext = getServletContext();
-        JakartaServletWebApplication application = JakartaServletWebApplication.buildApplication(servletContext);
-        WebApplicationTemplateResolver resolver = new WebApplicationTemplateResolver(application);
+        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
         engine = new TemplateEngine();
         resolver.setPrefix("/templates/");
         resolver.setSuffix(".html");
